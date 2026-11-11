@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta name="theme-color" content="#101a1c">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%231a3027'/%3E%3Ctext x='32' y='47' text-anchor='middle' font-family='sans-serif' font-size='46' font-weight='700' fill='%23d6ee87'%3ER%3C/text%3E%3C/svg%3E">
+  <title>REAL DRIVE — Driving School</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main id="game" class="game-shell">
+    <canvas id="scene" aria-label="Cockpit view of a driving training course"></canvas>
+    <div class="vignette"></div>
+    <header class="topbar">
+      <a class="brand" href="#" aria-label="Real Drive home"><span class="brand-mark">R</span><span>REAL<span class="brand-light">DRIVE</span><small>DRIVING SCHOOL</small></span></a>
+      <div class="lesson-pill"><span class="live-dot"></span><span id="lessonLabel">LESSON 01</span><i></i><span id="weatherLabel">CLEAR · 14:32</span></div>
+      <div class="top-actions"><button id="soundBtn" class="icon-btn" aria-label="Toggle sound">♫</button><button id="pauseBtn" class="icon-btn" aria-label="Pause game">Ⅱ</button></div>
+    </header>
+    <section class="mission-card" id="missionCard">
+      <div class="eyebrow"><span class="eyebrow-line"></span><span id="phaseText">YOUR FIRST DRIVE</span></div>
+      <h1 id="missionTitle">Ready when<br>you are.</h1>
+      <p id="missionCopy">Get familiar with the controls. Start the engine, then ease away from the line.</p>
+      <div class="mission-progress"><div class="progress-track"><span id="progressFill"></span></div><span id="stepCount">01 / 04</span></div>
+      <div class="tip-row"><span class="tip-icon">✳</span><span id="tipText">Press <b>ENGINE</b> to wake the car.</span></div>
+    </section>
+    <div class="route-badge"><span class="route-icon">↗</span><span><b id="routeName">TRAINING LOOP</b><small id="routeDistance">START LINE · 0 M</small></span></div>
+    <div class="speed-card"><div class="speed-value"><span id="speedValue">0</span><small>km/h</small></div><div class="speed-bottom"><span class="speed-dot"></span><span id="speedState">PARKED</span></div></div>
+    <div class="gear-card"><small>GEAR</small><strong id="gearValue">N</strong><span id="gearLabel">NEUTRAL</span></div>
+    <div class="status-pills"><span id="engineStatus" class="status-pill"><i></i>ENGINE OFF</span><span id="brakeStatus" class="status-pill">PARKING BRAKE</span></div>
+    <div class="warning-toast" id="toast" aria-live="polite"></div>
+    <section class="cockpit" aria-label="Vehicle cockpit">
+      <div class="dashboard-glow"></div>
+      <div class="cluster">
+        <div class="gauge gauge-rpm"><canvas id="rpmGauge" width="180" height="180"></canvas><span class="gauge-caption">RPM ×1000</span></div>
+        <div class="cluster-center"><div class="cluster-brand">PEYKAN <span>•</span> 1600</div><div class="cluster-lights"><i class="light-oil"></i><i class="light-battery"></i><i class="light-seat"></i></div><div class="cluster-clock" id="clock">14:32</div></div>
+        <div class="gauge gauge-speed"><canvas id="speedGauge" width="180" height="180"></canvas><span class="gauge-caption">KM/H</span></div>
+      </div>
+      <div class="dash-seam"></div>
+      <div class="dash-controls"><span>◀</span><span>HAZARD</span><span>▶</span></div>
+      <div class="steering-wrap"><div id="wheel" class="steering-wheel"><div class="wheel-rim"></div><div class="wheel-spoke spoke-left"></div><div class="wheel-spoke spoke-right"></div><div class="wheel-hub"><span>R</span></div></div><span class="wheel-label">STEER</span></div>
+      <div class="pedal-row"><div class="pedal clutch-pedal" id="clutchPedal"><span></span><small>CLUTCH</small></div><div class="pedal brake-pedal" id="brakePedal"><span></span><small>BRAKE</small></div><div class="pedal gas-pedal" id="gasPedal"><span></span><small>GAS</small></div></div>
+      <div class="ignition"><span class="key-icon">⏻</span><small>IGNITION</small></div>
+    </section>
+    <section class="controls" aria-label="Driving controls">
+      <div class="steer-controls"><button class="control-btn steer-btn" data-input="left" aria-label="Steer left">‹<small>LEFT</small></button><button class="control-btn steer-btn" data-input="right" aria-label="Steer right">›<small>RIGHT</small></button></div>
+      <div class="gear-controls"><button id="gearDown" class="shift-btn" aria-label="Shift down">−</button><span><small>SHIFT</small><b id="gearMini">N</b></span><button id="gearUp" class="shift-btn" aria-label="Shift up">+</button></div>
+      <button id="clutchBtn" class="pedal-btn clutch-btn"><span class="pedal-icon">◒</span><b>CLUTCH</b><small>HOLD TO SHIFT</small><span class="button-meter"><i id="clutchMeter"></i></span></button>
+      <button id="brakeBtn" class="pedal-btn brake-btn"><span class="pedal-icon">◉</span><b>BRAKE</b><small>HOLD TO SLOW</small><span class="button-meter"><i id="brakeMeter"></i></span></button>
+      <button id="gasBtn" class="pedal-btn gas-btn"><span class="pedal-icon">⌁</span><b>ACCELERATE</b><small>HOLD TO DRIVE</small><span class="button-meter"><i id="gasMeter"></i></span></button>
+      <button id="handbrakeBtn" class="handbrake-btn"><span>⤒</span><small>HANDBRAKE</small></button>
+    </section>
+    <button id="engineBtn" class="engine-fab"><span class="power-icon">⏻</span><span><b>ENGINE</b><small>START / STOP</small></span></button>
+    <section id="welcome" class="modal-screen">
+      <div class="welcome-card"><div class="welcome-top"><div class="brand-mark large">R</div><span class="welcome-tag">DRIVER EDUCATION · EST. 2025</span></div><p class="eyebrow">A MORE THOUGHTFUL DRIVE</p><h2>Learn the feel<br>of the <em>road.</em></h2><p class="welcome-copy">A hands-on manual driving lesson. Find the bite point, work through the gears, and bring it home smoothly.</p><div class="lesson-preview"><span class="preview-icon">01</span><span><b>THE FIRST DRIVE</b><small>CLUTCH · LAUNCH · STOP · PARK</small></span><span class="preview-time">~ 4 MIN</span></div><button id="startBtn" class="primary-btn">BEGIN LESSON <span>↗</span></button><div class="input-note">TOUCH CONTROLS <i>·</i> KEYBOARD: WASD / Q E / SPACE</div></div>
+    </section>
+    <section id="pauseScreen" class="modal-screen hidden"><div class="welcome-card compact"><p class="eyebrow">TAKE YOUR TIME</p><h2>Lesson<br><em>paused.</em></h2><p class="welcome-copy">Your progress is safe. The course will be waiting.</p><button id="resumeBtn" class="primary-btn">BACK TO THE ROAD <span>↗</span></button><button id="restartBtn" class="text-btn">RESTART LESSON</button></div></section>
+    <section id="completeScreen" class="modal-screen hidden"><div class="welcome-card compact"><div class="finish-medal">✦</div><p class="eyebrow">LESSON COMPLETE</p><h2>Nicely<br><em>driven.</em></h2><p class="welcome-copy">You worked the clutch, shifted with care, and brought the car to a smooth stop.</p><div class="result-stats"><span><b id="resultTime">03:42</b><small>TIME</small></span><span><b id="resultScore">100</b><small>DRIVE SCORE</small></span><span><b>01</b><small>LESSON</small></span></div><button id="againBtn" class="primary-btn">DRIVE AGAIN <span>↗</span></button></div></section>
+    <div id="mobileHint" class="mobile-hint">Tap & hold pedals to drive <span>↗</span></div>
+  </main>
+  <script src="game.js"></script>
+</body>
+</html>
